@@ -19,8 +19,10 @@ const Navigation = () => {
           <div className="flex items-center gap-3">
             <div className="p-2 bg-white/20 rounded-lg">
               <Package className="h-6 w-6" />
-            </div>
-            <h1 className="text-xl font-bold">Igloolabs Products</h1>
+            </div> 
+              <Link to={navItems[0].path} className="flex items-center gap-2">
+                <h1 className="text-xl font-bold">Igloolabs Products</h1>
+              </Link>
           </div>
           
           <div className="flex space-x-4">
