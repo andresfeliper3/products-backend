@@ -12,10 +12,10 @@ const app = express();
 app.use(express.json());
 
 // Swagger UI
-app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Product routes
-app.use('/api', productRoutes);
+app.use('/api/products', productRoutes);
 
 sequelize.authenticate()
   .then(() => console.log('DB connected'))

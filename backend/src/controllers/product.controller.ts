@@ -12,6 +12,26 @@ export const getAllProducts = async (_req: Request, res: Response) => {
   }
 };
 
+export const getProductById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    if (isNaN(Number(id))) {
+      return res.status(400).json({ error: 'Invalid product ID' });
+    }
+
+    const product = await Product.findByPk(id);
+
+    if (!product) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+
+    res.json(product);
+  } catch (error) {
+    console.error('Error fetching product:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
 
 export const createProduct = async (req: Request, res: Response) => {
   const { name, description, price } = req.body;
