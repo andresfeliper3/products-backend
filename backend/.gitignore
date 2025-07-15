@@ -29,9 +29,6 @@ Thumbs.db
 # Coverage reports
 coverage/
 
-# Sequelize CLI files
-migrations/
-seeders/
 
 # Optional npm cache directory
 .npm/
