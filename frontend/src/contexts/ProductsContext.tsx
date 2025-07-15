@@ -18,6 +18,8 @@ interface ProductsContextType {
   toggleProductSelection: (productId: number) => void;
   toggleSelectAll: () => void;
   filteredProducts: Product[];
+  hasMore: boolean;
+  setPage: (page: number) => void;
 }
 
 const ProductsContext = createContext<ProductsContextType | undefined>(undefined);
@@ -36,6 +38,8 @@ interface ProductsProviderProps {
 
 export const ProductsProvider: React.FC<ProductsProviderProps> = ({ children }) => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
   const [selectedProducts, setSelectedProducts] = useState<Set<number>>(new Set());
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -43,21 +47,28 @@ export const ProductsProvider: React.FC<ProductsProviderProps> = ({ children }) 
   const { toast } = useToast();
 
   const loadProducts = async () => {
-    try {
-      setLoading(true);
-      const data = await productService.getProducts();
-      setProducts(data);
-    } catch (error) {
-      console.error('Error loading products:', error);
-      toast({
-        title: "Error",
-        description: "Failed to load products. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
+  try {
+    setLoading(true);
+    const { products: newProducts, hasMore: more } = await productService.getProducts(page, 10);
+
+    if (newProducts.length === 0) {
+      setHasMore(false);
+    } else {
+      setProducts(prev => [...prev, ...newProducts]);
+      setHasMore(more);
+      setPage(prev => prev + 1);
     }
-  };
+  } catch (error) {
+    console.error('Error loading products:', error);
+    toast({
+      title: "Error",
+      description: "Error al cargar los productos. Por favor, inténtalo de nuevo.",
+      variant: "destructive",
+    });
+  } finally {
+    setLoading(false);
+  }
+};
 
   const addProduct = async (productData: Omit<Product, 'id'>) => {
     try {
@@ -71,7 +82,7 @@ export const ProductsProvider: React.FC<ProductsProviderProps> = ({ children }) 
       console.error('Error adding product:', error);
       toast({
         title: "Error",
-        description: "Failed to add product. Please try again.",
+        description: "Error al añadir el producto. Por favor, inténtalo de nuevo.",
         variant: "destructive",
       });
     }
@@ -94,7 +105,7 @@ export const ProductsProvider: React.FC<ProductsProviderProps> = ({ children }) 
       console.error('Error deleting product:', error);
       toast({
         title: "Error",
-        description: "Failed to delete product. Please try again.",
+        description: "Error al eliminar el producto. Intente nuevamente.",
         variant: "destructive",
       });
     }
@@ -117,7 +128,7 @@ export const ProductsProvider: React.FC<ProductsProviderProps> = ({ children }) 
       console.error('Error deleting products:', error);
       toast({
         title: "Error",
-        description: "Failed to delete some products. Please try again.",
+        description: "Error al eliminar los productos. Intente nuevamente.",
         variant: "destructive",
       });
     }
@@ -162,6 +173,8 @@ export const ProductsProvider: React.FC<ProductsProviderProps> = ({ children }) 
         selectedProducts,
         searchTerm,
         priceRange,
+        hasMore,
+        setPage,
         setSearchTerm,
         setPriceRange,
         loadProducts,

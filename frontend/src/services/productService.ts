@@ -43,23 +43,27 @@ api.interceptors.response.use(
 
 export const productService = {
   // Get all products
-  async getProducts(): Promise<Product[]> {
-    try {
-      const response = await api.get('/products');
-      console.log('Products fetched successfully:', response.data);
-      const products: Product[] = response.data.slice(0, 10).map((item: any, index: number) => ({
-        id: item.id,
-        name: item.name,
-        description: item.description,
-        price: parseFloat(item.price)
-      }));
-      
-      return products;
-    } catch (error) {
-      console.error('Error fetching products:', error);
-      throw new Error('Failed to fetch products');
-    }
-  },
+    async getProducts(page = 1, limit = 10): Promise<{ products: Product[]; hasMore: boolean }> {
+      try {
+        const response = await api.get('/products', {
+          params: { page, limit },
+        });
+
+        const products: Product[] = response.data.products.map((item: any) => ({
+          id: item.id,
+          name: item.name,
+          description: item.description,
+          price: parseFloat(item.price),
+        }));
+
+        const hasMore: boolean = response.data.hasMore;
+
+        return { products, hasMore };
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        throw new Error('Failed to fetch products');
+      }
+  }, 
 
   // Create a new product
   async createProduct(product: Omit<Product, 'id'>): Promise<Product> {
