@@ -4,6 +4,12 @@ Aplicación full stack para gestión de productos, usando PostgreSQL, Node.js, T
 
 ---
 
+## Clonar proyecto
+
+```
+git clone https://github.com/andresfeliper3/products-project.git
+```
+
 ## 🚀 OPCIÓN 1: Ejecutar con Docker
 
 ### 1. Requisitos
@@ -25,15 +31,15 @@ docker-compose up --build
 
 - Base de datos PostgreSQL:
 
-- host: localhost
+    - host: localhost
 
- - puerto: 5432
+    - puerto: 5432
 
-- usuario: postgres
+    - usuario: postgres
 
-- contraseña: postgres
+    - contraseña: postgres
 
-- base de datos: productsdb
+    - base de datos: productsdb
 
 El archivo db/init.sql se ejecuta automáticamente y crea la tabla products con los datos de prueba.
 
@@ -43,22 +49,6 @@ El archivo db/init.sql se ejecuta automáticamente y crea la tabla products con 
 ### 1. Configurar PostgreSQL
 Tener PostgreSQL instalado en tu máquina.
 
-#### Opción A: Usar script SQL
-1. Inicia sesión en PostgreSQL:
-```
-psql -U postgres
-```
-2. Crea la base de datos:
-```
-CREATE DATABASE productsdb;
-\c productsdb
-```
-3. Ejecuta el archivo _seeder.sql_, de esta forma desde la raíz del proyecto:
-```
-\i /db/init.sql
-```
-
-#### Opción B: Usar Sequelize
 Se debe tener configurado el archivo backend/.env con los Stos correctos:
 ```
 DB_HOST=localhost
@@ -70,13 +60,28 @@ PORT=3000
 FRONTEND_URL=http://localhost:5173
 ```
 
+#### Opción A: Usar script SQL
+1. Inicia sesión en PostgreSQL:
+```
+psql -U postgres
+```
+2. Crea la base de datos:
+```
+CREATE DATABASE productsdb;
+\c productsdb
+```
+3. Ejecuta el archivo _init.sql_, de esta forma desde la raíz del proyecto o acceder con una ruta absoluta desde psql:
+```
+\i /db/init.sql
+```
+
+#### Opción B: Usar Sequelize
 Instala las dependencias en el backend:
 
 ```
 cd backend
 npm install 
 npm install --save-dev sequelize-cli
- 
 ```
 Para ejecutar las migraciones y los seeders de la base de datos:
 
@@ -85,6 +90,7 @@ npm run migrate
 npm run seed
 ```
 o también
+
 ```
 npm reset
 ```
@@ -108,7 +114,7 @@ La app estará disponible en http://localhost:5173
 
 Debe haber un archivo .env en /frontend con esta variable:
 ```
-VITE_API_URL=http://localhost:3000/api
+    VITE_API_URL=http://localhost:3000/api
 ```
 
 
