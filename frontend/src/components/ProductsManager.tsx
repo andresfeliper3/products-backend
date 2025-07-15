@@ -29,7 +29,7 @@ const ProductsManager = () => {
       console.error('Error loading products:', error);
       toast({
         title: "Error",
-        description: "Failed to load products. Please try again.",
+        description: "Error al cargar los productos. Por favor, inténtalo de nuevo.",
         variant: "destructive",
       });
     } finally {
@@ -42,14 +42,14 @@ const ProductsManager = () => {
       const newProduct = await productService.createProduct(productData);
       setProducts(prev => [...prev, newProduct]);
       toast({
-        title: "Success",
-        description: "Product added successfully!",
+        title: "Excelente",
+        description: "Producto agregado exitosamente!",
       });
     } catch (error) {
       console.error('Error adding product:', error);
       toast({
         title: "Error",
-        description: "Failed to add product. Please try again.",
+        description: "Fallo al agregar el producto. Por favor, inténtalo de nuevo.",
         variant: "destructive",
       });
     }
@@ -66,13 +66,13 @@ const ProductsManager = () => {
       });
       toast({
         title: "Success",
-        description: "Product deleted successfully!",
+        description: "Producto eliminado exitosamente!",
       });
     } catch (error) {
       console.error('Error deleting product:', error);
       toast({
         title: "Error",
-        description: "Failed to delete product. Please try again.",
+        description: "Fallo al eliminar el producto. Intente nuevamente",
         variant: "destructive",
       });
     }
@@ -89,14 +89,14 @@ const ProductsManager = () => {
       setProducts(prev => prev.filter(p => !selectedProducts.has(p.id)));
       setSelectedProducts(new Set());
       toast({
-        title: "Success",
-        description: `${selectedProducts.size} product(s) deleted successfully!`,
+        title: "Completado",
+        description: `${selectedProducts.size} producto(s) borrados exitosamente!`,
       });
     } catch (error) {
       console.error('Error deleting products:', error);
       toast({
         title: "Error",
-        description: "Failed to delete some products. Please try again.",
+        description: "Fallo al eliminar los productos. Por favor, inténtalo de nuevo.",
         variant: "destructive",
       });
     } finally {
@@ -135,7 +135,6 @@ const ProductsManager = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 p-4 md:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto space-y-8">
-        {/* Header */}
         <div className="text-center space-y-4">
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="p-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl shadow-lg">
@@ -146,16 +145,15 @@ const ProductsManager = () => {
             </h1>
           </div>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Manage your product catalog with ease. Add, view, and delete products with a beautiful, responsive interface.
+            Maneja tu catálogo de productos con facilidad. Agrega, edita y elimina productos según sea necesario.
           </p>
         </div>
 
-        {/* Add Product Form */}
         <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm">
           <CardHeader className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-t-lg">
             <CardTitle className="flex items-center gap-2 text-xl">
               <Plus className="h-6 w-6" />
-              Add New Product
+              Agregar nuevo producto
             </CardTitle>
           </CardHeader>
           <CardContent className="p-6">
@@ -195,7 +193,7 @@ const ProductsManager = () => {
                       className="bg-red-500 hover:bg-red-600"
                     >
                       <Trash2 className="h-4 w-4 mr-2" />
-                      Delete Selected ({selectedProducts.size})
+                      Borrar seleccionados ({selectedProducts.size})
                     </Button>
                   )}
                 </div>
@@ -209,8 +207,8 @@ const ProductsManager = () => {
                 <div className="p-4 bg-gray-100 rounded-full w-20 h-20 mx-auto mb-4 flex items-center justify-center">
                   <Package className="h-10 w-10 text-gray-400" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-700 mb-2">No Products Yet</h3>
-                <p className="text-gray-500">Add your first product using the form above.</p>
+                <h3 className="text-xl font-semibold text-gray-700 mb-2">sin productos todavía.</h3>
+                <p className="text-gray-500">Agrega tu primer producto usando el formulario de arriba.</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
