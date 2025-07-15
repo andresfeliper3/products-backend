@@ -2,10 +2,21 @@ import { Request, Response } from 'express';
 import { Product } from '../models/product.model';
 
 
-export const getAllProducts = async (_req: Request, res: Response) => {
+export const getAllProducts = async (req: Request, res: Response) => {
   try {
-    const products = await Product.findAll();
-    res.status(200).json(products);
+    const limit = parseInt(req.query.limit as string) || 10;
+    const page = parseInt(req.query.page as string) || 1;
+    const offset = (page - 1) * limit;
+
+    const { rows: products, count: total } = await Product.findAndCountAll({
+      limit,
+      offset,
+      order: [['id', 'ASC']],
+    });
+
+    const hasMore = offset + products.length < total;
+
+    res.status(200).json({ products, hasMore });
   } catch (error) {
     console.error('Error fetching products:', error);
     res.status(500).json({ message: 'Error retrieving products' });

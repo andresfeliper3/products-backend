@@ -82,7 +82,7 @@ router.get('/:id', getProductById);
  *       201:
  *         description: Product created
  */
-router.post('/products', createProduct);
+router.post('/', createProduct);
 
 
 /**
@@ -103,6 +103,6 @@ router.post('/products', createProduct);
  *       404:
  *         description: Product not found
  */
-router.delete('/products/:id', deleteProduct);
+router.delete('/:id', deleteProduct);
 
 export default router;
