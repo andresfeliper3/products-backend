@@ -8,8 +8,8 @@ const Navigation = () => {
   const location = useLocation();
 
   const navItems = [
-    { path: '/', label: 'Products', icon: ShoppingCart },
-    { path: '/add-product', label: 'Add Product', icon: Plus },
+    { path: '/', label: 'Productos', icon: ShoppingCart },
+    { path: '/add-product', label: 'Agregar producto', icon: Plus },
   ];
 
   return (
@@ -20,7 +20,7 @@ const Navigation = () => {
             <div className="p-2 bg-white/20 rounded-lg">
               <Package className="h-6 w-6" />
             </div>
-            <h1 className="text-xl font-bold">Products Manager</h1>
+            <h1 className="text-xl font-bold">Igloolabs Products</h1>
           </div>
           
           <div className="flex space-x-4">
