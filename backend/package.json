@@ -9,6 +9,7 @@
     "migrate": "npx sequelize-cli db:migrate",
     "seed": "npx sequelize-cli db:seed:all",
     "reset": "npx sequelize-cli db:migrate:undo:all && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
+  
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
