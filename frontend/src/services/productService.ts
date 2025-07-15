@@ -17,18 +17,6 @@ const api = axios.create({
   },
 });
 
-// Add request interceptor for logging
-api.interceptors.request.use(
-  (config) => {
-    console.log(`Making ${config.method?.toUpperCase()} request to:`, config.url);
-    return config;
-  },
-  (error) => {
-    console.error('Request error:', error);
-    return Promise.reject(error);
-  }
-);
-
 // Add response interceptor for error handling
 api.interceptors.response.use(
   (response) => {
@@ -42,7 +30,6 @@ api.interceptors.response.use(
 );
 
 export const productService = {
-  // Get all products
     async getProducts(page = 1, limit = 10): Promise<{ products: Product[]; hasMore: boolean }> {
       try {
         const response = await api.get('/products', {
@@ -68,21 +55,18 @@ export const productService = {
   // Create a new product
   async createProduct(product: Omit<Product, 'id'>): Promise<Product> {
     try {
-      // Validate input data
       if (!product.name || !product.description || product.price <= 0) {
         throw new Error('Invalid product data');
       }
 
-      // In a real API, this would create the product on the server
-      // For demo purposes, we'll simulate the creation
-      const response = await api.post('/posts', {
-        title: product.name,
-        body: product.description,
-        userId: 1,
+      const response = await api.post('/products', {
+        name: product.name,
+        description: product.description,
+        price: product.price,
       });
 
       const newProduct: Product = {
-        id: response.data.id || Date.now(), // Fallback to timestamp for unique ID
+        id: response.data.id || Date.now(),
         name: product.name,
         description: product.description,
         price: product.price,
@@ -101,41 +85,12 @@ export const productService = {
       if (!productId || productId <= 0) {
         throw new Error('Invalid product ID');
       }
-
-      // In a real API, this would delete the product from the server
-      await api.delete(`/posts/${productId}`);
+      await api.delete(`/products/${productId}`);
       
-      console.log(`Product ${productId} deleted successfully`);
+      console.log(`Producto ${productId} eliminado exitosamente`);
     } catch (error) {
       console.error('Error deleting product:', error);
       throw new Error('Failed to delete product');
-    }
-  },
-
-  // Update a product (for future use)
-  async updateProduct(productId: number, product: Partial<Product>): Promise<Product> {
-    try {
-      if (!productId || productId <= 0) {
-        throw new Error('Invalid product ID');
-      }
-
-      const response = await api.put(`/posts/${productId}`, {
-        title: product.name,
-        body: product.description,
-        userId: 1,
-      });
-
-      const updatedProduct: Product = {
-        id: productId,
-        name: product.name || '',
-        description: product.description || '',
-        price: product.price || 0,
-      };
-
-      return updatedProduct;
-    } catch (error) {
-      console.error('Error updating product:', error);
-      throw new Error('Failed to update product');
     }
   },
 };

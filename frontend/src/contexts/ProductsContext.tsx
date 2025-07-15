@@ -75,8 +75,8 @@ export const ProductsProvider: React.FC<ProductsProviderProps> = ({ children }) 
       const newProduct = await productService.createProduct(productData);
       setProducts(prev => [...prev, newProduct]);
       toast({
-        title: "Success",
-        description: "Product added successfully!",
+        title: "Proceso exitoso",
+        description: "Producto agregado exitosamente!",
       });
     } catch (error) {
       console.error('Error adding product:', error);
@@ -98,8 +98,8 @@ export const ProductsProvider: React.FC<ProductsProviderProps> = ({ children }) 
         return newSet;
       });
       toast({
-        title: "Success",
-        description: "Product deleted successfully!",
+        title: "Proceso exitoso",
+        description: "Producto eliminado exitosamente!",
       });
     } catch (error) {
       console.error('Error deleting product:', error);
