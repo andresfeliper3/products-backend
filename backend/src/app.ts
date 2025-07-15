@@ -2,12 +2,22 @@ import express from 'express';
 import productRoutes from './routes/product.route';
 import { sequelize } from './config/database';
 import dotenv from 'dotenv';
+import cors from "cors";
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './config/swagger';
+
+import { env }  from './config/env';
 
 dotenv.config();
 
 const app = express();
+
+
+app.use(cors({
+  origin: env.FRONTEND_URL,
+  credentials: true
+}));
+
 
 app.use(express.json());
 

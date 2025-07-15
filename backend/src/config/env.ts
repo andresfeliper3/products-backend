@@ -14,7 +14,8 @@ export const env = {
   DB_HOST: getEnvVariable("DB_HOST"),
   DB_USER: getEnvVariable("DB_USER"),
   DB_PASSWORD: getEnvVariable("DB_PASSWORD"),
-    DB_NAME: getEnvVariable("DB_NAME"),
+  DB_NAME: getEnvVariable("DB_NAME"),
   DB_PORT: Number(getEnvVariable("DB_PORT")),
   PORT: Number(getEnvVariable("PORT")),
+  FRONTEND_URL: getEnvVariable("FRONTEND_URL")
 };
