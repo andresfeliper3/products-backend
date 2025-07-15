@@ -77,7 +77,82 @@ export const ProductsProvider: React.FC<ProductsProviderProps> = ({ children }) 
     }
   };
 
-  
+  const deleteProduct = async (productId: number) => {
+    try {
+      await productService.deleteProduct(productId);
+      setProducts(prev => prev.filter(p => p.id !== productId));
+      setSelectedProducts(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(productId);
+        return newSet;
+      });
+      toast({
+        title: "Success",
+        description: "Product deleted successfully!",
+      });
+    } catch (error) {
+      console.error('Error deleting product:', error);
+      toast({
+        title: "Error",
+        description: "Failed to delete product. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const bulkDeleteProducts = async () => {
+    if (selectedProducts.size === 0) return;
+    
+    try {
+      await Promise.all(
+        Array.from(selectedProducts).map(id => productService.deleteProduct(id))
+      );
+      setProducts(prev => prev.filter(p => !selectedProducts.has(p.id)));
+      setSelectedProducts(new Set());
+      toast({
+        title: "Success",
+        description: `${selectedProducts.size} product(s) deleted successfully!`,
+      });
+    } catch (error) {
+      console.error('Error deleting products:', error);
+      toast({
+        title: "Error",
+        description: "Failed to delete some products. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const toggleProductSelection = (productId: number) => {
+    setSelectedProducts(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(productId)) {
+        newSet.delete(productId);
+      } else {
+        newSet.add(productId);
+      }
+      return newSet;
+    });
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedProducts.size === filteredProducts.length) {
+      setSelectedProducts(new Set());
+    } else {
+      setSelectedProducts(new Set(filteredProducts.map(p => p.id)));
+    }
+  };
+
+  const filteredProducts = products.filter(product => {
+    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         product.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesPrice = product.price >= priceRange.min && product.price <= priceRange.max;
+    return matchesSearch && matchesPrice;
+  });
+
+  useEffect(() => {
+    loadProducts();
+  }, []);
 
   return (
     <ProductsContext.Provider
@@ -91,6 +166,11 @@ export const ProductsProvider: React.FC<ProductsProviderProps> = ({ children }) 
         setPriceRange,
         loadProducts,
         addProduct,
+        deleteProduct,
+        bulkDeleteProducts,
+        toggleProductSelection,
+        toggleSelectAll,
+        filteredProducts,
       }}
     >
       {children}
