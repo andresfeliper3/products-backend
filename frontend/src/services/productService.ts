@@ -45,15 +45,12 @@ export const productService = {
   // Get all products
   async getProducts(): Promise<Product[]> {
     try {
-      // Using JSONPlaceholder as a mock API for demonstration
-      // In real implementation, replace with your actual API endpoint
       const response = await api.get('/products');
       console.log('Products fetched successfully:', response.data);
-      // Transform the mock data to match our Product interface
       const products: Product[] = response.data.slice(0, 10).map((item: any, index: number) => ({
         id: item.id,
         name: item.name,
-        description: item.description.substring(0, 100) + '...',
+        description: item.description,
         price: parseFloat(item.price)
       }));
       

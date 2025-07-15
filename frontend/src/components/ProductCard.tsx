@@ -21,7 +21,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const navigate = useNavigate();
 
   const handleCardClick = (e: React.MouseEvent) => {
-    // Don't navigate if clicking on checkbox or delete button
+    // Doesn't navigate if clicking on checkbox or delete button
     if ((e.target as HTMLElement).closest('button') || (e.target as HTMLElement).closest('[role="checkbox"]')) {
       return;
     }
@@ -47,7 +47,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
       onClick={handleCardClick}
     >
       <CardContent className="p-6 space-y-4">
-        {/* Header with selection and delete */}
         <div className="flex items-start justify-between">
           <div className="flex items-center space-x-3">
             <Checkbox
@@ -70,14 +69,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <Trash2 className="h-4 w-4" />
           </Button>
         </div>
-
-        {/* Product Name */}
         <div>
           <h3 className="text-xl font-bold text-gray-800 mb-2 line-clamp-2 leading-tight">
             {product.name}
           </h3>
-          
-          {/* Price */}
           <div className="flex items-center gap-2 mb-3">
             <div className="p-1 bg-green-100 rounded-md">
               <DollarSign className="h-4 w-4 text-green-600" />
@@ -87,22 +82,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
             </span>
           </div>
         </div>
-
-        {/* Description */}
         <div className="space-y-2">
           <h4 className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
-            Description
+            Descripción
           </h4>
           <p className="text-gray-700 text-sm leading-relaxed line-clamp-3">
-            {product.description}
+            {product.description.substring(0, 50) + '...'}
           </p>
-        </div>
-
-        {/* Product ID */}
-        <div className="pt-3 border-t border-gray-100">
-          <span className="text-xs text-gray-400">
-            ID: {product.id}
-          </span>
         </div>
       </CardContent>
     </Card>
