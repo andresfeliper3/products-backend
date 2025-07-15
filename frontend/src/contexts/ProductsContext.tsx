@@ -77,4 +77,23 @@ export const ProductsProvider: React.FC<ProductsProviderProps> = ({ children }) 
     }
   };
 
- 
+  
+
+  return (
+    <ProductsContext.Provider
+      value={{
+        products,
+        loading,
+        selectedProducts,
+        searchTerm,
+        priceRange,
+        setSearchTerm,
+        setPriceRange,
+        loadProducts,
+        addProduct,
+      }}
+    >
+      {children}
+    </ProductsContext.Provider>
+  );
+};
